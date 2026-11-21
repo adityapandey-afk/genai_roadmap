@@ -1,0 +1,50 @@
+$kind: http-request
+description: ""
+url: "{{base_url}}/posts"
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \  \"title\": \"test\",\r
+
+    \  \"body\": \"hello\",\r
+
+    \  \"userId\": 1\r
+
+    }"
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Status is 201\", () => {\r
+
+      \    pm.response.to.have.status(201);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Title matches what I sent\", () => {\r
+
+      \    const json = pm.response.json();\r
+
+      \    pm.expect(json.title).to.eql(\"test\");\r
+
+      \    pm.expect(json).to.have.property(\"id\");\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Response time under 1000ms\", () => {\r
+
+      \    pm.expect(pm.response.responseTime).to.be.below(1000);\r
+
+      });\r
+
+      \r
+
+      // chaining: id ko environment me save karo\r
+
+      pm.environment.set(\"newPostId\", pm.response.json().id);"
+    language: text/javascript
+order: 5000

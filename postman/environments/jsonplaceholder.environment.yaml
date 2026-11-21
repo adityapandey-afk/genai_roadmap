@@ -1,0 +1,6 @@
+name: jsonplaceholder
+values:
+  - key: base_url
+    value: ''
+  - key: newPostId
+    value: ''
